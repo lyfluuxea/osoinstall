@@ -74,8 +74,8 @@ macOS 在 Apple Silicon（M 系列）和 Intel 上的关键区别：
 ## 使用方法
 
 ```
-./install.ps1   [操作] [组件...]    # Windows
-./install.sh    [操作] [组件...]    # Linux
+./wininstall.ps1   [操作] [组件...]    # Windows
+./linuxinstall.sh    [操作] [组件...]    # Linux
 ./macinstall.sh [操作] [组件...]    # macOS
 ```
 
@@ -107,12 +107,12 @@ macOS 在 Apple Silicon（M 系列）和 Intel 上的关键区别：
 ```powershell
 # Windows（以管理员身份运行 PowerShell）
 Set-ExecutionPolicy RemoteSigned -Scope CurrentUser   # 首次执行
-./install.ps1
+./wininstall.ps1
 ```
 
 ```bash
 # Linux
-./install.sh
+./linuxinstall.sh
 
 # macOS
 ./macinstall.sh
@@ -122,10 +122,10 @@ Set-ExecutionPolicy RemoteSigned -Scope CurrentUser   # 首次执行
 
 ```bash
 # Windows
-./install.ps1 install --node --opencode
+./wininstall.ps1 install --node --opencode
 
 # Linux
-./install.sh install --node --opencode
+./linuxinstall.sh install --node --opencode
 
 # macOS
 ./macinstall.sh install --node --opencode
@@ -135,10 +135,10 @@ Set-ExecutionPolicy RemoteSigned -Scope CurrentUser   # 首次执行
 
 ```bash
 # Windows
-./install.ps1 update --openspec --oso
+./wininstall.ps1 update --openspec --oso
 
 # Linux
-./install.sh update --openspec --oso
+./linuxinstall.sh update --openspec --oso
 
 # macOS
 ./macinstall.sh update --openspec --oso
@@ -148,21 +148,21 @@ Set-ExecutionPolicy RemoteSigned -Scope CurrentUser   # 首次执行
 
 ```bash
 # 卸载全部
-./install.ps1 uninstall
-./install.sh uninstall
+./wininstall.ps1 uninstall
+./linuxinstall.sh uninstall
 ./macinstall.sh uninstall
 
 # 卸载指定组件（卸载顺序与安装相反）
-./install.ps1 uninstall --oso --superpowers
-./install.sh uninstall --oso --superpowers
+./wininstall.ps1 uninstall --oso --superpowers
+./linuxinstall.sh uninstall --oso --superpowers
 ./macinstall.sh uninstall --oso --superpowers
 ```
 
 ### 查看帮助
 
 ```bash
-./install.ps1 --help
-./install.sh --help
+./wininstall.ps1 --help
+./linuxinstall.sh --help
 ./macinstall.sh --help
 ```
 
