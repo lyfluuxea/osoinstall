@@ -166,8 +166,60 @@ function Clear-OpencodePackageCache($pattern) {
     }
 }
 
-# ─── 系统依赖: GitHub CLI (gh) ───────────────────────────────────────────────
-# 官方安装方式参考: https://cli.github.com/
+# ─── 系统依赖: Git 与 GitHub CLI (gh) ─────────────────────────────────────────
+# Git 官方安装方式参考: https://git-scm.com/download/win
+function Install-Git {
+    if (Test-Command git) {
+        $ver = & git --version 2>$null | Select-Object -First 1
+        Write-Success "git 已安装 ($ver)"
+        return $true
+    }
+
+    Write-Info "正在安装 Git..."
+
+    # 方式 1: winget
+    if (Test-Command winget) {
+        try {
+            & winget install --id Git.Git --accept-source-agreements --accept-package-agreements 2>&1 | Out-Null
+            if ($LASTEXITCODE -eq 0) {
+                $env:Path = [Environment]::GetEnvironmentVariable("Path", "Machine") + ";" + [Environment]::GetEnvironmentVariable("Path", "User")
+                if (Test-Command git) {
+                    Write-Success "Git 安装完成 ($(& git --version 2>$null | Select-Object -First 1))"
+                    return $true
+                }
+            }
+        }
+        catch {
+            Write-Warn "winget 安装失败，尝试备用方案..."
+        }
+    }
+
+    # 方式 2: 直接下载 Git for Windows 安装器
+    Write-Info "正在从 GitHub 下载 Git for Windows..."
+    try {
+        $latest = Invoke-RestMethod -Uri "https://api.github.com/repos/git-for-windows/git/releases/latest" -UseBasicParsing
+        $asset = $latest.assets | Where-Object { $_.name -match '^Git-.*-64-bit\.exe$' } | Select-Object -First 1
+        if (-not $asset) {
+            throw "未找到 64 位安装包"
+        }
+        $installer = Join-Path $env:TEMP "git-installer.exe"
+        Invoke-WebRequest -Uri $asset.browser_download_url -OutFile $installer -UseBasicParsing
+        Start-Process $installer -ArgumentList "/VERYSILENT /NORESTART /NOCANCEL /SP- /SUPPRESSMSGBOXES /CLOSEAPPLICATIONS /RESTARTAPPLICATIONS" -Wait
+        $env:Path = [Environment]::GetEnvironmentVariable("Path", "Machine") + ";" + [Environment]::GetEnvironmentVariable("Path", "User")
+        if (Test-Command git) {
+            Write-Success "Git 安装完成 ($(& git --version 2>$null | Select-Object -First 1))"
+            return $true
+        }
+    }
+    catch {
+        Write-Warn "Git 下载/安装失败: $_"
+    }
+
+    Write-Warn "git 安装失败。请手动安装: https://git-scm.com/download/win"
+    return $false
+}
+
+# GitHub CLI 官方安装方式参考: https://cli.github.com/
 function Install-GH {
     if (Test-Command gh) {
         $ver = (& gh --version 2>$null | Select-Object -First 1)
@@ -928,9 +980,10 @@ function Main {
     Write-Info "开始时间: $(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')"
     Write-Host ""
 
-    # 安装全部组件时检查系统依赖 (gh)
+    # 安装全部组件时检查系统依赖 (git, gh)
     if ($Component.Count -eq $VALID_COMPONENTS.Count) {
         Write-Step "检查系统依赖..."
+        $null = Install-Git
         $null = Install-GH
         Write-Host ""
     }
