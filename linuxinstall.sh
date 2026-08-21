@@ -423,9 +423,9 @@ set_oh_my_openagent_model() {
         return 0
     fi
 
-    local model="opencode/deepseek-v4-flash-free"
+    local model="opencode/nemotron-3-ultra-free"
     local variant="max"
-    local fallback='[{"model":"opencode/big-pickle","variant":"high"},{"model":"opencode/minimax-m2.5-free","variant":"max"},{"model":"opencode/nemotron3-superfree","variant":"max"}]'
+    local fallback='[{"model":"opencode/mimo-v2.5-free","variant":"high"},{"model":"opencode/hy3-free","variant":"high"},{"model":"opencode/big-pickle","variant":"high"},{"model":"opencode/x-preview-f-free","variant":"max"}]'
     local prompt="所有回复、思考过程、工具调用参数及描述，全部必须使用中文。不允许出现英文回复（代码本身、库名、专有名词除外）。"
 
     for f in \
@@ -868,14 +868,14 @@ main() {
     if [[ " ${COMPONENTS[*]} " =~ " superpowers " || " ${COMPONENTS[*]} " =~ " oso " ]]; then
         if check_command opencode; then
             log_info "opencode初始化并测试"
-            opencode run "hello" --model opencode/deepseek-v4-flash-free 2>/dev/null || true
+            opencode run "hello" --model opencode/big-pickle 2>/dev/null || true
         fi
     fi
 
     echo ""
     log_banner "指定组件${action_label}完成！"
     echo ""
-    echo -e "  ${GREEN}✓${NC} 运行命令 'opencode run \"hello\" --model opencode/deepseek-v4-flash-free' 测试 opencode"
+    echo -e "  ${GREEN}✓${NC} 运行命令 'opencode run \"hello\" --model opencode/big-pickle' 测试 opencode"
     echo -e "  ${GREEN}✓${NC} 在项目目录运行 'openspec-superpowers-opencode init' 初始化 oso"
     echo ""
     log_info "完成时间: $(date '+%Y-%m-%d %H:%M:%S')"

@@ -389,12 +389,13 @@ function Install-OpenCode {
 # ─── 组件 3: oh-my-openagent ────────────────────────────────────────────────
 function Set-OhMyOpenAgentModel {
     $modelConfig = @{
-        model = "opencode/deepseek-v4-flash-free"
+        model = "opencode/nemotron-3-ultra-free"
         variant = "max"
         fallback_models = @(
-            @{ model = "opencode/big-pickle"; variant = "high" }
-            @{ model = "opencode/minimax-m2.5-free"; variant = "max" }
-            @{ model = "opencode/nemotron3-superfree"; variant = "max" }
+            @{ model = "opencode/mimo-v2.5-free"; variant = "high" }
+            @{ model = "opencode/hy3-free"; variant = "max" }
+            @{ model = "opencode/big-pickle"; variant = "max" }
+            @{ model = "opencode/x-preview-f-free"; variant = "max" }
         )
         prompt_append = "所有回复、思考过程、工具调用参数及描述，全部必须使用中文。不允许出现英文回复（代码本身、库名、专有名词除外）。"
     }
@@ -1008,14 +1009,14 @@ function Main {
     if ($Component -contains 'superpowers' -or $Component -contains 'oso') {
         if (Test-Command opencode) {
             Write-Info "opencode初始化并测试"
-            $null = & opencode run "hello" --model opencode/deepseek-v4-flash-free 2>&1
+            $null = & opencode run "hello" --model opencode/big-pickle 2>&1
         }
     }
 
     Write-Host ""
     Write-Banner "指定组件${actionLabel}完成！"
     Write-Host ""
-    Write-Success "运行命令 'opencode run ""hello"" --model opencode/deepseek-v4-flash-free' 测试 opencode"
+    Write-Success "运行命令 'opencode run ""hello"" --model opencode/big-pickle' 测试 opencode"
     Write-Success "在项目目录运行 'openspec-superpowers-opencode init' 初始化 oso"
     Write-Host ""
     Write-Info "完成时间: $(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')"
