@@ -177,9 +177,10 @@ Set-ExecutionPolicy RemoteSigned -Scope CurrentUser   # 首次执行
   "model": "opencode/nemotron-3-ultra-free",
   "variant": "max",
   "fallback_models": [
-    {"model": "opencode/mimo-v2.5-free", "variant": "high"},
+    {"model": "opencode/mimo-v2.5-free", "variant": "max"},
     {"model": "opencode/hy3-free", "variant": "max"},
-    {"model": "opencode/big-pickle", "variant": "max"}
+    {"model": "opencode/big-pickle", "variant": "high"},
+    {"model": "opencode/x-preview-f-free", "variant": "max"}
   ],
   "prompt_append": "所有回复、思考过程、工具调用参数及描述，全部必须使用中文。不允许出现英文回复（代码本身、库名、专有名词除外）。"
 }
